@@ -60,6 +60,6 @@ VOLUME /app/GISportal/config
 
 EXPOSE 6789
 WORKDIR /app/GISportal
-
-CMD "/app/GISportal/docker-run.sh"
+RUN chmod +x /app/GISportal/docker-run.sh
+CMD ["/app/GISportal/docker-run.sh"]
 
