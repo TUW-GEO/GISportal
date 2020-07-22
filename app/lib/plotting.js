@@ -57,7 +57,7 @@ router.all('/app/plotting/check_plot', function(req, res) {
    } else {
       process_info.push('-b=' + series_data.bbox);
    }
-   var child = child_process.spawn('python', process_info);
+   var child = child_process.spawn(plottingApi.PYTHON_PATH, '-m', process_info);
 
    child.stdout.on('data', function(data) {
       data = JSON.parse(data);
@@ -216,7 +216,7 @@ router.all('/app/prep_download', function(req, res) {
       process_info.push(depth);
    }
 
-   var child = child_process.spawn('python', process_info);
+   var child = child_process.spawn(plottingApi.PYTHON_PATH, process_info);
 
    child.stdout.on('data', function(data) {
       var temp_file = path.normalize(data.toString().replace("\n", ""));

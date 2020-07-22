@@ -178,7 +178,7 @@ def calculateDistance(lat1, lon1, lat2, lon2):
    Calculate the distance in kilometres between two points on the earth (specified in decimal degrees)
    """
    # convert decimal degrees to radians
-   lat1, lon1, lat2, lon2 = map(radians, [lat1, lon1, lat2, lon2])
+   lat1, lon1, lat2, lon2 = list(map(radians, [lat1, lon1, lat2, lon2]))
 
    # haversine formula
    dlat = lat2 - lat1

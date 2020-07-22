@@ -1,7 +1,8 @@
-from . import Extractor
-from extraction_utils import WCSHelper, WCSRawHelper
-import tempfile
+from .extractor import Extractor
+from ..extraction_utils.wcs_raw_extraction import WCSRawHelper
+
 import uuid
+
 
 class BasicExtractor(Extractor):
 	"""docstring for BasicExtractor"""
@@ -12,6 +13,6 @@ class BasicExtractor(Extractor):
 		wcs_extractor = WCSRawHelper(self.wcs_url, self.extract_dates, self.extract_variable, self.extract_area, self.extract_depth)
 		data = wcs_extractor.getData()
 		fname = self.outdir+str(uuid.uuid4())+".nc"
-		with open(fname, 'w') as outfile:
+		with open(fname, 'wb') as outfile:
 			outfile.write(data.read())
 		return fname

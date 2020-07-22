@@ -1,7 +1,3 @@
-from extraction_utils import WCSHelper
-import tempfile
-import uuid
-
 
 class Extractor(object):
 	"""base Extractor class providing basic functions"""

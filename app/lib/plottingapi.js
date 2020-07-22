@@ -19,6 +19,8 @@ var PLOT_DOWNLOAD_DIRECTORY = '/tmp/';
 var plottingApi = {};
 module.exports = plottingApi;
 
+var PYTHON_PATH = "python"
+
 plottingApi.getPlotDirUrl = function(req) {
    var url = req.protocol + '://' + req.headers.host + req.originalUrl;
    if (url.includes('/api/')) {
@@ -49,7 +51,7 @@ plottingApi.plot = function(req, request, next) {
       });
    } else {
       var url = plottingApi.getPlotDirUrl(req);
-      var child = child_process.spawn('python', ["-u", PLOTTING_PATH, "-c", "execute", "-d", PLOT_DESTINATION, "-u", url, "-dd", downloadDir, "-ld", logDir]);
+      var child = child_process.spawn(PYTHON_PATH, ["-u", PLOTTING_PATH, "-c", "execute", "-d", PLOT_DESTINATION, "-u", url, "-dd", downloadDir, "-ld", logDir]);
 
       var hash;
       child.stdout.on('data', function(data) {

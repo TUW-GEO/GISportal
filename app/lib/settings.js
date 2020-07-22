@@ -109,7 +109,7 @@ settings.delete_walkthrough = function(req, res) {
       res.status(404).send();
    }
 };
-
+// TODO Find out what views are...
 settings.get_views = function(req, res) {
    var domain = utils.getDomainName(req); // Gets the given domain
 
@@ -347,7 +347,7 @@ settings.delete_group = function(req, res) {
       res.status(401).send();
    }
 };
-
+// TODO: Find out what dictionaries are for?
 settings.get_dictionary = function(req, res) {
    var domain = utils.getDomainName(req); // Gets the given domain
    var username = user.getUsername(req);
@@ -467,6 +467,7 @@ settings.add_wcs_url = function(req, res) {
    var url = req.query.url.split('?')[0].split(" ")[0]; // Gets the given url
    var username = user.getUsername(req); // Gets the given username
    var permission = user.getAccessLevel(req, domain); // Gets the user permission
+
    if (permission == 'admin') {
       // If the user is an admin
       username = req.query.username;

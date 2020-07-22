@@ -23,7 +23,7 @@ def read_status(dirname, my_hash):
          status = json.load(status_file)
    except IOError as err:
       if err.errno == 2:
-         debug(2, u"Status file {} not found".format(file_path))
+         debug(2, "Status file {} not found".format(file_path))
       else:
          raise
 
@@ -56,7 +56,7 @@ def update_status(dirname, my_hash, plot_status, message="", percentage=0, trace
             status = json.load(status_file)
    except IOError as err:
       if err.errno == 2:
-         debug(2, u"Status file {} not found".format(file_path))
+         debug(2, "Status file {} not found".format(file_path))
          # It does not exist yet so create the initial JSON
          status = initial_status
       else:
@@ -87,7 +87,7 @@ def update_status(dirname, my_hash, plot_status, message="", percentage=0, trace
       status['filename'] = None
       status['csv'] = None
 
-   debug(4, u"Status: {}".format(status))
+   debug(4, "Status: {}".format(status))
 
    # Write it back to the file.
    with open(file_path, 'w') as status_file:

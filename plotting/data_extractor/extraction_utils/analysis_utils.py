@@ -1,6 +1,3 @@
-import urllib
-import urllib2
-import tempfile
 import numpy as np
 import netCDF4 as netCDF
 from shapely import wkt
@@ -43,7 +40,7 @@ def basic(dataset, variable, irregular=False, original=None, filename="debugging
    # current_app.logger.debug('time channel test')
    # current_app.logger.debug(time)
    if time == None:
-      g.graphError = "could not find time dimension"
+      # g.graphError = "could not find time dimension"
       return
    
    times = np.array(time)
@@ -96,7 +93,7 @@ def basic(dataset, variable, irregular=False, original=None, filename="debugging
          output['data'][date] = {'mean': mean, 'median': median,'std': std, 'min': min, 'max': max}
    
    if len(output['data']) < 1:
-      g.graphError = "no valid data available to use"
+      # g.graphError = "no valid data available to use"
       return output
       
    return output
@@ -121,10 +118,10 @@ def basic_scatter(dataset1, variable1, dataset2, variable2,):
    # current_app.logger.debug('time channel test')
    # current_app.logger.debug(time)
    if time1 == None:
-      g.graphError = "could not find time dimension"
+      # g.graphError = "could not find time dimension"
       return
    if time2 == None:
-      g.graphError = "could not find time dimension"
+      # g.graphError = "could not find time dimension"
       return
    
    times1 = np.array(time1)
@@ -150,7 +147,7 @@ def basic_scatter(dataset1, variable1, dataset2, variable2,):
       t_data1.append(data1[i])
       t_data2.append(data2[i])
 
-   zipped_data = zip(t_data1, t_data2, isotimes2)
+   zipped_data = list(zip(t_data1, t_data2, isotimes2))
       
    return {'order' : [variable1, variable2, 'Time'], 'data' : zipped_data}
 
@@ -382,7 +379,7 @@ def create_mask(poly, netcdf_base, variable, poly_type="polygon"):
       for poly in overlap_poly:
          found_lats = [find_closest(latvals, float(x)) for x in poly.exterior.xy[1]]
          found_lons = [find_closest(lonvals, float(x)) for x in poly.exterior.xy[0]]
-         found.append(zip(found_lons,found_lats))
+         found.append(list(zip(found_lons,found_lats)))
 
 
    elif overlap_poly.type == "MultiLineString":
@@ -390,7 +387,7 @@ def create_mask(poly, netcdf_base, variable, poly_type="polygon"):
       for poly in overlap_poly:
          found_lats = [find_closest(latvals, float(x)) for x in poly.xy[1]]
          found_lons = [find_closest(lonvals, float(x)) for x in poly.xy[0]]
-         found.append(zip(found_lons,found_lats))
+         found.append(list(zip(found_lons,found_lats)))
 
    else:
       if poly_type is 'line':
@@ -400,7 +397,7 @@ def create_mask(poly, netcdf_base, variable, poly_type="polygon"):
          found_lats = [find_closest(latvals, float(x)) for x in overlap_poly.exterior.xy[1]]
          found_lons = [find_closest(lonvals, float(x)) for x in overlap_poly.exterior.xy[0]]
 
-      found = zip(found_lons,found_lats)
+      found = list(zip(found_lons,found_lats))
 
    img = Image.new('L', (chl.shape[to_be_masked.variables[variable].dimensions.index(str(getCoordinateVariable(to_be_masked, 'Lon').dimensions[0]))],chl.shape[to_be_masked.variables[variable].dimensions.index(str(getCoordinateVariable(to_be_masked, 'Lat').dimensions[0]))]), 0)
 
@@ -458,10 +455,10 @@ def hovmoller(dataset, xAxisVar, yAxisVar, dataVar):
    zArr = np.ma.masked_array(zArr)
 
    if xVar == None:
-      print "could not find %s dimension" % xAxisVar
+      print("could not find %s dimension" % xAxisVar)
       return
    if yVar == None:
-      print "could not find %s dimension" % yAxisVar
+      print("could not find %s dimension" % yAxisVar)
       return
    
    # Create a masked array ignoring nan's
@@ -512,7 +509,7 @@ def hovmoller(dataset, xAxisVar, yAxisVar, dataVar):
    if numDimensions == 4:
       depth = np.array(getDepth(dataset))
       if len(depth.shape) > 1:
-         current_app.logger.debug('WARNING: There are multiple depths.')
+         pass# current_app.logger.debug('WARNING: There are multiple depths.')
       else:
          # Presume 1 depth, set to contents of depth
          # This way, it will enumerate over correct array
@@ -572,7 +569,7 @@ def are_time_axis_the_same(filenames):
    for key in filenames:
       times[key] = getCoordinateVariable(netCDF.Dataset(filenames[key], 'r+'), 'Time')
    
-   keys = times.keys()
+   keys = list(times.keys())
 
    time_range = len(times[keys[0]]) if len(times[keys[0]]) > len(times[keys[1]]) else len(times[keys[1]])
 

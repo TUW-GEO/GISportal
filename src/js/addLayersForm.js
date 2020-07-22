@@ -295,6 +295,7 @@ gisportal.addLayersForm.displayForm = function(total_pages, current_page, form_d
          var styles = [];
          var style;
          for(style in data.Styles){
+            //console.log("Adding new style: "+data.Styles[style].Name)
             styles.push(data.Styles[style].Name);
          }
          styles = styles.sort();
