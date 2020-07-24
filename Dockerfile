@@ -44,7 +44,7 @@ RUN yum -y update && \
     python3 -m virtualenv --python=/usr/bin/python3 /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
     # TODO: add h5py, netCDF to pip-requirenments
-RUN pip2 install -r /app/pip-requirenments.txt --no-cache-dir && \
+RUN pip3 install -r /app/pip-requirenments.txt --no-cache-dir && \
     npm install -g grunt-cli && \
     gem install sass && \
     mkdir -p /app/GISportal/config

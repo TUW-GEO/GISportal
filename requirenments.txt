@@ -24,3 +24,10 @@ six==1.15.0
 tornado==6.0.4
 typing-extensions==3.7.4.2
 urllib3==1.25.9
+
+
+# owslib
+# numpy
+# shapely
+# Pillow
+# matplotlib
