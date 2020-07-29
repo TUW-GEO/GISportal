@@ -19,7 +19,7 @@ var PLOT_DOWNLOAD_DIRECTORY = '/tmp/';
 var plottingApi = {};
 module.exports = plottingApi;
 
-var PYTHON_PATH = "/home/bgoesswe/.pyenv/versions/miniconda3-4.3.30/envs/smartdri/bin/python"
+var PYTHON_PATH = "python"
 
 plottingApi.getPythonPath = function() {
     return PYTHON_PATH
