@@ -12,8 +12,10 @@ var utils = require('./utils.js');
 var USER_CACHE_PREFIX = "user_";
 var CURRENT_PATH = __dirname;
 var MASTER_CONFIG_PATH = CURRENT_PATH + "/../../config/site_settings/";
-var EXTRACTOR_PATH = path.join(__dirname, "../../plotting/data_extractor/data_extractor_cli.py");
+var EXTRACTOR_PATH = path.join(__dirname, "../../plotting/data_extractor_cli.py");
 var TEMP_UPLOADS_PATH = __dirname + "/../../uploads/";
+
+
 
 var upload = multer({
    dest: TEMP_UPLOADS_PATH
@@ -57,7 +59,8 @@ router.all('/app/plotting/check_plot', function(req, res) {
    } else {
       process_info.push('-b=' + series_data.bbox);
    }
-   var child = child_process.spawn(plottingApi.PYTHON_PATH, '-m', process_info);
+
+   var child = child_process.spawn(plottingApi.getPythonPath(), process_info);
 
    child.stdout.on('data', function(data) {
       data = JSON.parse(data);
@@ -237,7 +240,7 @@ router.all('/app/prep_download', function(req, res) {
       process_info.push(depth);
    }
 
-   var child = child_process.spawn(plottingApi.PYTHON_PATH, process_info);
+   var child = child_process.spawn(plottingApi.getPythonPath(), process_info);
 
    child.stdout.on('data', function(data) {
       var temp_file = path.normalize(data.toString().replace("\n", ""));

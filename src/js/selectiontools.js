@@ -24,6 +24,26 @@ var draw;
 gisportal.selectionTools.init = function()  {
    gisportal.selectionTools.initDOM();
 
+   gisportal.vectorLayer_bg = new ol.layer.Vector({
+      source : new ol.source.Vector(),
+      style : new ol.style.Style({
+         fill : new ol.style.Fill({
+            color : 'rgba(47, 163, 11, 0.2)'
+         }),
+         stroke : new ol.style.Stroke({
+            color : '#ffffff',
+            width : 2
+         }),
+         image : new ol.style.Circle({
+            radius : 7,
+            fill : new ol.style.Fill({
+               color : '#ffffff'
+            })
+         })
+      }),
+      map:map
+   });
+
    gisportal.vectorLayer = new ol.layer.Vector({
       source : new ol.source.Vector(),
       style : new ol.style.Style({
@@ -309,7 +329,7 @@ gisportal.selectionTools.loadInitGeoJSON = function(geojson, shapeName){
    //gisportal.removeTypeFromOverlay(gisportal.featureOverlay, 'selected');
    //cancelDraw();
    //MORETODO: remove the selected class from draw buttons
-   gisportal.vectorLayer.getSource().addFeatures(features);
+   gisportal.vectorLayer_bg.getSource().addFeatures(features);
    // Zooms to the extent of the features just added
    //if((!gisportal.current_view || !gisportal.current_view.noPan)){
    //    gisportal.mapFit(gisportal.vectorLayer.getSource().getExtent());

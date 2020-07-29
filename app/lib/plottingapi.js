@@ -19,7 +19,11 @@ var PLOT_DOWNLOAD_DIRECTORY = '/tmp/';
 var plottingApi = {};
 module.exports = plottingApi;
 
-var PYTHON_PATH = "python"
+var PYTHON_PATH = "/home/bgoesswe/.pyenv/versions/miniconda3-4.3.30/envs/smartdri/bin/python"
+
+plottingApi.getPythonPath = function() {
+    return PYTHON_PATH
+}
 
 plottingApi.getPlotDirUrl = function(req) {
    var url = req.protocol + '://' + req.headers.host + req.originalUrl;
@@ -58,7 +62,7 @@ plottingApi.plot = function(req, request, next) {
          hash = data.toString().replace(/\n|\r\n|\r/g, '');
          next(null, hash);
       });
-
+      var req_str = JSON.stringify(request);
       child.stdin.write(JSON.stringify(request));
       child.stdin.end();
 

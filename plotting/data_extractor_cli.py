@@ -32,19 +32,19 @@ AET
 """
 
 import argparse
-from extractors.basic_extraction import BasicExtractor
-from extractors.irregular_extraction import IrregularExtractor
-from extractors.transect_extraction import TransectExtractor
-from extractors.single_test_extraction import SingleExtractor
-from extractors.scatter_extraction import ScatterExtractor
-from extraction_utils.debug import Debug
-from extraction_utils.transect_utils import get_transect_bounds, get_transect_times
+from data_extractor.extractors.basic_extraction import BasicExtractor
+from data_extractor.extractors.irregular_extraction import IrregularExtractor
+from data_extractor.extractors.transect_extraction import TransectExtractor
+from data_extractor.extractors.single_test_extraction import SingleExtractor
+from data_extractor.extractors.scatter_extraction import ScatterExtractor
+from data_extractor.extraction_utils.debug import Debug
+from data_extractor.extraction_utils.transect_utils import get_transect_bounds, get_transect_times
 # from .extraction_utils.analysis_utils import are_time_axis_the_same
-from analysis_types.basic_stats import BasicStats
-from analysis_types.transect_stats import TransectStats
-from analysis_types.hovmoller_stats import HovmollerStats
-from analysis_types.image_stats import ImageStats
-from analysis_types.scatter_stats import ScatterStats
+from data_extractor.analysis_types.basic_stats import BasicStats
+from data_extractor.analysis_types.transect_stats import TransectStats
+from data_extractor.analysis_types.hovmoller_stats import HovmollerStats
+from data_extractor.analysis_types.image_stats import ImageStats
+from data_extractor.analysis_types.scatter_stats import ScatterStats
 
 from shapely import wkt
 import json
@@ -158,8 +158,8 @@ def main():
 	else :
 		raise ValueError('extract type not recognised! must be one of ["basic","irregular","trans-lat","trans-long","trans-time"]')
 
-	#print "finished"
-	print (output_data)
+
+	print(output_data)
 	#print middle_time - start_time
 	#print after_stats - middle_time
 
