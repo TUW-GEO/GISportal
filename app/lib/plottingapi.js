@@ -21,7 +21,6 @@ module.exports = plottingApi;
 
 var PYTHON_PATH = "python"
 
-
 plottingApi.getPlotDirUrl = function(req) {
    var url = req.protocol + '://' + req.headers.host + req.originalUrl;
    if (url.includes('/api/')) {

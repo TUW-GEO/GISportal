@@ -132,7 +132,36 @@ gisportal.setGraticuleVisibility = function(setTo) {
  *
  */
 gisportal.createCountryBorderLayers = function() {
-   
+
+   // Load static Shapefiles from borders folder
+   $.ajax({
+      url:  gisportal.middlewarePath + '/plotting/get_border_shapes',
+      dataType: 'json',
+      success: function(data){
+
+         selectValues = data.list;
+
+         $.each(selectValues, function(key, value) {
+            $.ajax({
+               url: gisportal.middlewarePath + '/cache/' + gisportal.niceDomainName + '/borders/'+value+'.geojson',
+               dataType: 'json',
+               success: function(data){
+                  gisportal.selectionTools.loadInitGeoJSON(data, false);
+               },
+               error: function(e){
+                  gisportal.vectorLayer.getSource().clear();
+                  $.notify("Sorry, There was an error with loading geojson from borders folder "+
+                      value+".geojson: " + e.statusText, "error");
+                  // $.notify(gisportal.middlewarePath + '/cache/' + gisportal.niceDomainName + '/borders/'+value+'.geojson', "error");
+               }
+            });
+         });
+      },
+      error: function(e){
+         // $.notify("Sorry, There was an error loading static border files: " + e.statusText, "error");
+      }
+   });
+
    gisportal.countryBorderLayers = {
       countries_all_white: new ol.layer.Tile({ 
          id: 'countries_all_white', 

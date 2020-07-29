@@ -284,6 +284,51 @@ gisportal.selectionTools.loadGeoJSON = function(geojson, shapeName, selectedValu
    }
 };
 
+gisportal.selectionTools.loadInitGeoJSON = function(geojson, shapeName){
+   var geoJsonFormat = new ol.format.GeoJSON();
+   var featureOptions = {
+      'featureProjection': gisportal.projection
+   };
+   var features = geoJsonFormat.readFeatures(geojson, featureOptions);
+
+   features.forEach(function(feat){
+      feat.setStyle(new ol.style.Style({
+         stroke: new ol.style.Stroke({
+            color: 'black',
+            width: 2,
+         }),
+         fill: new ol.style.Fill({
+            color: 'rgba(255, 255, 0, 0)',
+         }),
+      }))
+
+
+   });
+   //gisportal.vectorLayer.getSource().clear();
+   //gisportal.removeTypeFromOverlay(gisportal.featureOverlay, 'hover');
+   //gisportal.removeTypeFromOverlay(gisportal.featureOverlay, 'selected');
+   //cancelDraw();
+   //MORETODO: remove the selected class from draw buttons
+   gisportal.vectorLayer.getSource().addFeatures(features);
+   // Zooms to the extent of the features just added
+   //if((!gisportal.current_view || !gisportal.current_view.noPan)){
+   //    gisportal.mapFit(gisportal.vectorLayer.getSource().getExtent());
+   //}
+   gisportal.currentSelectedRegion = gisportal.wkt.writeFeatures(features);
+   $('.js-coordinates').val("");
+   // If this is a newly created geojson
+   if(shapeName){
+      shapeName += ".shp";
+      // Makes sure it adds the value or just selects the existing value
+      if($(".users-geojson-files option[value='" + shapeName + "']").length === 0){
+         $('.users-geojson-files').append("<option selected value='" +  shapeName + "'>" + shapeName + "</option>");
+      }else{
+         $('.users-geojson-files').val(shapeName);
+      }
+   }
+   //gisportal.methodThatSelectedCurrentRegion = {method:"geoJSONSelect", value: $('.users-geojson-files').val(), justCoords: false, geoJSON: geojson};
+};
+
 gisportal.selectionTools.toggleBboxDisplay = function() {
    $('.coordinates').disabled();
 };
