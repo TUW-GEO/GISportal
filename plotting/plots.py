@@ -389,10 +389,10 @@ def extract(plot, outfile="image.html"):
    script, div = components({'geographic':p, 'legend': legend})
 
    #if debug.verbosity > 0:
-   output_file(outfile, 'Geographic Extract')
+   # output_file(outfile, 'Geographic Extract')
    #else:
-   #   with open(outfile, 'w') as ofile:
-   #      print(hovmoller_template.render(script=script,  div_legend=div['legend'], div_plot=div['geographic']), file=ofile)
+   with open(outfile, 'w') as ofile:
+      print(hovmoller_template.render(script=script,  div_legend=div['legend'], div_plot=div['geographic']), file=ofile)
    return(1)
 
 #END extract
@@ -570,10 +570,12 @@ def hovmoller(plot, outfile="image.html"):
    script, div = components({'hovmoller':p, 'legend': legend})
 
    #if debug.verbosity > 0:
-   output_file(outfile, 'Hovmoller')
+   # output_file(outfile, 'Hovmoller')
+
    #else:
-   #   with open(outfile, 'w') as ofile:
-   #      print(hovmoller_template.render(script=script,  div_legend=div['legend'], div_plot=div['hovmoller']), file=ofile)
+   with open(outfile, 'w') as ofile:
+      print(hovmoller_template.render(script=script,  div_legend=div['legend'], div_plot=div['hovmoller']), file=ofile)
+
    return(1)
    #END hovmoller
 
