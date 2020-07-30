@@ -434,7 +434,12 @@ gisportal.utils.titleCase = function(str){
 gisportal.utils.makePointReadable = function(point){
    var string = point.toString();
    var exponential = parseFloat(point).toExponential(2);
+
    if(exponential){
+      if (exponential.endsWith("+0") || exponential.endsWith("+1") || exponential.endsWith("+2") ||
+          exponential.endsWith("-0") || exponential.endsWith("-1") || exponential.endsWith("-2")) {
+         return string;
+      }
       return exponential;
    }else{
       return string;
