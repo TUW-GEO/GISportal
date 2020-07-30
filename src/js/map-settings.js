@@ -357,6 +357,19 @@ gisportal.createBaseLayers = function() {
             maxZoom: 19,
          }
       }),
+       Mapbox: new ol.layer.Tile({
+      id: 'Mapbox',
+      title: 'Open Street Map - no labels',
+      description: 'EPSG:3857 only',
+      projections: ['EPSG:3857'],
+      source: new ol.source.XYZ({
+         attributions: '<a href="https://www.mapbox.com/about/maps/"><code>© Mapbox</code></a><a href="http://www.openstreetmap.org/about/"><code>© OpenStreetMap</code></a>  <a href="https://www.mapbox.com/map-feedback/#/-74.5/40/10"><code>Improve this map</code></a>',
+         url: 'https://api.mapbox.com/styles/v1/bgoesswe/ckd8w3kvs14jm1ipk0ja10ikw/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYmdvZXNzd2UiLCJhIjoiY2psZXNyMGd1MHBoMTNwbWN0aXMxNG5pdiJ9.9Uy9Yxs6As5jYy4-4JxiIw'
+      }),
+      viewSettings: {
+         maxZoom: 19,
+      }
+   })
    };
 
    if (gisportal.config.bingMapsAPIKey) {
