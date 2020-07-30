@@ -154,6 +154,25 @@ router.get('/app/plotting/get_border_shapes', function(req, res) {
          var file_path = path.join(border_shapes_path, filename);
          if (utils.fileExists(file_path) && path.extname(filename) == ".geojson") {
             shape_list.push(filename.replace(".geojson", ""));
+         } else if (utils.fileExists(file_path) && path.extname(filename) == ".shp") {
+
+            var shape_file = file_path;
+
+            var geoJSON_path = shape_file + ".geojson";
+            var stream = fs.createWriteStream(geoJSON_path);
+
+            var geoJSON = ogr2ogr(shape_file);
+            try {
+               geoJSON.stream().pipe(stream);
+            } catch (e) {
+               utils.handleError(e, res);
+            }
+
+            // Once the Geojsonhas been created the temp files are deleted
+            stream.on('finish', function() {
+               fs.unlinkSync(shape_file);
+               shape_list.push(filename.replace(".geojson", ""));
+            });
          }
       });
    }
