@@ -36,6 +36,17 @@ gisportal.view.loadView = function(view_name){
             };
             gisportal.events.trigger('view.removed', params);
          });
+         $('#rm-view-btn-div').toggleClass('hidden', false);
+         $('#rm-view-btn').on('click', function(){
+            gisportal.view.removeView();
+            var params = {
+               "event" : "view.removed"
+            };
+            $('#rm-view-btn-div').toggleClass('hidden', true);
+            gisportal.events.trigger('view.removed', params);
+         });
+
+
          data.view_name = view_name;
          gisportal.current_view = data;
          $('.hide-when-view').toggleClass('hidden', true);
