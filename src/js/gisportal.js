@@ -687,7 +687,7 @@ gisportal.mapInit = function() {
             if(feature.getId()){
                tlayer = gisportal.layers['rsg_' + feature.getId().split('.')[0]];
             }
-            isFeature = true;
+            isFeature = false; //true
             gisportal.selectedFeatures.push([feature, feature.getStyle()]);
             var props = feature.getProperties();
             for (var key in props) {
