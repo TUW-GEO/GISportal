@@ -522,6 +522,7 @@ gisportal.layer = function( options ) {
          async: true,
          success: function(data) {
             try{
+
                json_data = JSON.parse(data);
                if (layer.defaultMinScaleVal === null || layer.defaultMinScaleVal === undefined){
                   layer.defaultMinScaleVal = parseFloat(json_data.scaleRange[0]);

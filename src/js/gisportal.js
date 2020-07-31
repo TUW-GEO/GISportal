@@ -677,35 +677,37 @@ gisportal.mapInit = function() {
       var isFeature = false;
       var coordinate = map.getCoordinateFromPixel(pixel);
       var params;
-      response = "";
-      map.forEachFeatureAtPixel(pixel, function(feature, layer) {
-         var overlayType = feature.getProperties().overlayType;
-         if (feature && _.keys(feature.getProperties()).length >1 && overlayType != "filter" && overlayType != "selected") {
-            _.each(gisportal.selectedFeatures, function(feature) {
-            });
-            var tlayer;
-            if(feature.getId()){
-               tlayer = gisportal.layers['rsg_' + feature.getId().split('.')[0]];
-            }
-            isFeature = false; //true
-            gisportal.selectedFeatures.push([feature, feature.getStyle()]);
-            var props = feature.getProperties();
-            for (var key in props) {
-               if (props.hasOwnProperty(key) && key != "geometry") {
-                  if(tlayer){
-                     if ((!_.includes(tlayer.ignoredParams, key))&&(props[key]!==undefined)) {
-                        response += "<li>" + key + " : " + props[key] + "</li>";
-                     }
-                  }else if(props[key]!==undefined){
-                     response += "<li>" + key + " : " + props[key] + "</li>";
-                  }
-               }
-            }
-            response += "</ul>";
-            gisportal.dataReadingPopupContent.innerHTML = response;
-            gisportal.dataReadingPopupOverlay.setPosition(coordinate);
-         }
-      });
+      // response = "";
+      // map.forEachFeatureAtPixel(pixel, function(feature, layer) {
+      //
+      //    var overlayType = feature.getProperties().overlayType;
+      //    if (feature && _.keys(feature.getProperties()).length >1 && overlayType != "filter" && overlayType != "selected") {
+      //       //_.each(gisportal.selectedFeatures, function(feature) {
+      //       });
+      //       var tlayer;
+      //       // if(feature.getId()){
+      //       //    tlayer = gisportal.layers['rsg_' + feature.getId().split('.')[0]];
+      //       // }
+      //       isFeature = false; //true
+      //       // gisportal.selectedFeatures.push([feature, feature.getStyle()]);
+      //       // var props = feature.getProperties();
+      //       // for (var key in props) {
+      //       //    if (props.hasOwnProperty(key) && key != "geometry") {
+      //       //       if(tlayer){
+      //       //          if ((!_.includes(tlayer.ignoredParams, key))&&(props[key]!==undefined)) {
+      //       //             response += "<li>" + key + " : " + props[key] + "</li>";
+      //       //          }
+      //       //       }else if(props[key]!==undefined){
+      //       //          response += "<li>" + key + " : " + props[key] + "</li>";
+      //       //       }
+      //       //    }
+      //       // }
+      //       // response += "</ul>";
+      //       // gisportal.dataReadingPopupContent.innerHTML = response;
+      //       // gisportal.dataReadingPopupOverlay.setPosition(coordinate);
+      //    }
+      // });
+
       if (!isFeature && !gisportal.selectionTools.isDrawing && !gisportal.geolocationFilter.filteringByPolygon) {
          gisportal.addDataPopup(coordinate, pixel);
          params = {
@@ -715,7 +717,7 @@ gisportal.mapInit = function() {
          gisportal.events.trigger('dataPopup.display', params);
       }
       if(gisportal.selectionTools.isDrawing || gisportal.geolocationFilter.filteringByPolygon){
-         params = {
+          params = {
             "event": "olDraw.click",
             "coordinate": coordinate
          };
