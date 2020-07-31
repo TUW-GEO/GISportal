@@ -47,7 +47,7 @@ gisportal.configurePanel.loadViewList = function(){
       success: function(data) {
          if(_.size(data) > 0){
             $('li.views-list').toggleClass('hidden', false);
-            $('select.js-views-list').html("<option value='default' selected disabled>Please select a view...</option>");
+            $('select.js-views-list').html("<option value='default' selected disabled>Please select an interesting events...</option>");
             for(var view in data){
                $('select.js-views-list').append("<option value='" + view + "'>" + data[view] + "</option>");
             }
