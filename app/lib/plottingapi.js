@@ -62,7 +62,6 @@ plottingApi.plot = function(req, request, next) {
          hash = data.toString().replace(/\n|\r\n|\r/g, '');
          next(null, hash);
       });
-      var req_str = JSON.stringify(request);
       child.stdin.write(JSON.stringify(request));
       child.stdin.end();
 
