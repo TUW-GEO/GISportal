@@ -12,8 +12,10 @@ var utils = require('./utils.js');
 var USER_CACHE_PREFIX = "user_";
 var CURRENT_PATH = __dirname;
 var MASTER_CONFIG_PATH = CURRENT_PATH + "/../../config/site_settings/";
-var EXTRACTOR_PATH = path.join(__dirname, "../../plotting/data_extractor/data_extractor_cli.py");
+var EXTRACTOR_PATH = path.join(__dirname, "../../plotting/data_extractor_cli.py");
 var TEMP_UPLOADS_PATH = __dirname + "/../../uploads/";
+
+
 
 var upload = multer({
    dest: TEMP_UPLOADS_PATH
@@ -57,7 +59,8 @@ router.all('/app/plotting/check_plot', function(req, res) {
    } else {
       process_info.push('-b=' + series_data.bbox);
    }
-   var child = child_process.spawn('python', process_info);
+
+   var child = child_process.spawn(plottingApi.getPythonPath(), process_info);
 
    child.stdout.on('data', function(data) {
       data = JSON.parse(data);
@@ -140,6 +143,46 @@ router.get('/app/plotting/get_shapes', user.requiresValidUser, function(req, res
    })); // Returns the list to the browser.
 });
 
+router.get('/app/plotting/get_border_shapes', function(req, res) {
+   var domain = utils.getDomainName(req); // Gets the given domain
+
+   var shape_list = [];
+   var border_shapes_path = path.join(MASTER_CONFIG_PATH, domain, "borders");
+   if (fs.lstatSync(border_shapes_path).isDirectory()) {
+      var border_list = fs.readdirSync(border_shapes_path); // Gets all the user files
+      border_list.forEach(function (filename) {
+         var file_path = path.join(border_shapes_path, filename);
+         if (utils.fileExists(file_path) && path.extname(filename) == ".geojson") {
+            shape_list.push(filename.replace(".geojson", ""));
+         } else if (utils.fileExists(file_path) && path.extname(filename) == ".shp") {
+
+            var shape_file = file_path;
+
+            var geoJSON_path = shape_file + ".geojson";
+            var stream = fs.createWriteStream(geoJSON_path);
+
+            var geoJSON = ogr2ogr(shape_file);
+            try {
+               geoJSON.stream().pipe(stream);
+            } catch (e) {
+               utils.handleError(e, res);
+            }
+
+            // Once the Geojsonhas been created the temp files are deleted
+            stream.on('finish', function() {
+               fs.unlinkSync(shape_file);
+               shape_list.push(filename.replace(".geojson", ""));
+            });
+         }
+      });
+   }
+   //res.send(JSON.stringify(shape_list[0]));
+   // TODO change to res.json
+   res.send(JSON.stringify({
+      list: shape_list
+   })); // Returns the list to the browser.
+});
+
 router.get('/app/plotting/delete_geojson', user.requiresValidUser, function(req, res) {
    var username = user.getUsername(req);
    var domain = utils.getDomainName(req); // Gets the given domain
@@ -216,7 +259,7 @@ router.all('/app/prep_download', function(req, res) {
       process_info.push(depth);
    }
 
-   var child = child_process.spawn('python', process_info);
+   var child = child_process.spawn(plottingApi.getPythonPath(), process_info);
 
    child.stdout.on('data', function(data) {
       var temp_file = path.normalize(data.toString().replace("\n", ""));
