@@ -1413,11 +1413,31 @@ gisportal.main = function() {
       $('.start').css({"background-image": "url('" + gisportal.config.splashImage + "')"});
    }
    if(gisportal.config.logoImage){
-      $('.footer-logo').attr({"src": gisportal.config.logoImage}).parent().toggleClass('hidden', false);
-      // Makes sure that the logo image is centered between the buttons properly
-      var left = parseInt($('.about-button').css('width')) + 5;
-      var right = parseInt($('#share-map').css('width')) + 5;
-      $('.footer-logo').css({"max-width": "calc(100% - " + (left + right) + "px)", "margin-left": left + "px", "margin-right": right + "px"});
+      if (Array.isArray(gisportal.config.logoImage)) {
+         var log_counter = 0;
+         var logo_length = gisportal.config.logoImage.length;
+         for(var logo in gisportal.config.logoImage){
+            if (log_counter > 6) {
+               break;
+            }
+            if ((logo_length % 2 == 1) && logo == (logo_length-1)) {
+               $('#footer-logo'+log_counter).parent().css({"width": "100%"});
+            }
+
+            $('#footer-logo'+log_counter).attr({"src": gisportal.config.logoImage[logo]});
+            $('#footer-logo'+log_counter).toggleClass('hidden', false);
+
+            log_counter++;
+         }
+      } else {
+
+         $('#footer-logo').attr({"src": gisportal.config.logoImage}).parent().toggleClass('hidden', false);
+         $('#footer-logo').toggleClass('hidden', false);
+         // Makes sure that the logo image is centered between the buttons properly
+         // var left = parseInt($('.about-button').css('width')) + 5;
+         // var right = parseInt($('#share-map').css('width')) + 5;
+         //$('#footer-logo').css({"max-width": "calc(100% - " + (left + right) + "px)", "margin-left": left + "px", "margin-right": right + "px"});
+      }
    }
 
    if( gisportal.config.siteMode == "production" ) {
