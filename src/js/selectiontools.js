@@ -320,7 +320,7 @@ gisportal.selectionTools.loadInitGeoJSON = function(geojson, shapeName){
          fill: new ol.style.Fill({
             color: 'rgba(255, 255, 0, 0)',
          }),
-      }))
+      }));
 
 
    });

@@ -1854,7 +1854,7 @@ gisportal.getPointReading = function(pixel) {
             success: function(data){
                try{
                   $(elementId +' .loading').remove();
-                  $(elementId).prepend('<li>'+ data +'</li>');
+                  $(elementId).prepend('<li>'+ data + '<span class="brand btn js-make-new-plot icon-business-chart-2" style="padding: 5px 10px;" onclick="gisportal.graphs.addTimeseriesToGraph(\' '+selectedLayer+' \', \' '+coordinate[0]+','+coordinate[1]+', '+(coordinate[0]+0.01)+', '+(coordinate[1]+0.01)+'\')"></span></li>');
                }
                catch(e){
                   $(elementId +' .loading').remove();
