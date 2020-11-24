@@ -1801,6 +1801,67 @@ gisportal.validateBrowser = function(){
 
 };
 
+/** Clears selection of all features
+ *
+ */
+gisportal.clearCountryBorderLayerByCoordinates = function () {
+
+   gisportal.vectorLayer_bg.getSource().forEachFeature(function (feat) {
+      feat.setStyle(new ol.style.Style({
+         stroke: new ol.style.Stroke({
+            color: 'black',
+            width: 2,
+         }),
+         fill: new ol.style.Fill({
+            color: 'rgba(255, 255, 0, 0)',
+         }),
+      }));
+   });
+};
+
+
+/** Select the feature borders by coordinates
+ *
+ */
+gisportal.selectCountryBorderLayerByCoordinates = function (coordinates) {
+   var coords = [coordinates[0], coordinates[1]];
+   var feature = gisportal.vectorLayer_bg.getSource().getFeaturesAtCoordinate(coords);
+
+   if (feature.length > 0) {
+      feature = feature[0];
+
+      feature.setStyle(new ol.style.Style({
+         stroke: new ol.style.Stroke({
+            color: 'black',
+            width: 4,
+         }),
+         fill: new ol.style.Fill({
+            color: 'rgba(255, 255, 128, 128)',
+         }),
+      }));
+
+      feat_coords = feature.getGeometry().getCoordinates();
+
+      for (var poly in feat_coords) {
+         for (var coor in feat_coords[poly]) {
+            for (var num in feat_coords[poly][coor]) {
+               feat_coords[poly][coor][num] = Math.round(feat_coords[poly][coor][num] * 1000) / 1000;
+            }
+         }
+      }
+
+      gisportal.selectionTools.ROIAdded(feature);
+
+
+      var params = {
+         "event": "olDraw.drawend",
+         "coordinates": feat_coords
+      };
+      gisportal.events.trigger('olDraw.drawend', params);
+   }
+
+};
+
 
 /**
  *  Gets the value at the user selected point for all currently loaded layers

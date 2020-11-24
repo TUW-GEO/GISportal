@@ -20,6 +20,12 @@
                   <span class=" icon-network-1-1" data-id="Ph" title="Draw Irregular Polygon" ></span>
                   Draw Irregular Polygon
                </button>
+               <p><b>SELECT</b></p>
+                              <p>Click inside a district on the map</p>
+                              <button class="brand secondary extra-small js-select-district" data-id="{{id}}" title="Select District">
+                               <span class=" icon-network-1-1" data-id="Ph" title="Select District" ></span>
+                                          Select District
+                               </button>
                <div class="coordinates clearfix">
                   <p><label for="tab-{{id}}-coordinates">Or enter coordinates</label></p>
                   <div class="analysis-coordinates">

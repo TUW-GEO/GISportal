@@ -146,6 +146,19 @@ gisportal.selectionTools.initDOM = function()  {
       };
       gisportal.events.trigger("selectPolygon.clicked", params);
    })
+       .on('click', '.js-select-district', function () {
+          var hasntClass = !$(this).hasClass("drawInProgress");
+          if (hasntClass) {
+             gisportal.selectionTools.toggleTool('SelectFromMapDistrict');
+          } else {
+             cancelDraw();
+          }
+          $(this).toggleClass("drawInProgress", hasntClass);
+          var params = {
+             "event": "selDist.clicked"
+          };
+          gisportal.events.trigger("selDist.clicked", params);
+       })
    .on('click', '.js-remove-geojson', function() {
       $.ajax({
          url: gisportal.middlewarePath + '/plotting/delete_geojson?filename=' + $('.users-geojson-files').val(),
@@ -406,6 +419,15 @@ gisportal.selectionTools.toggleTool = function(type)  {
          gisportal.selectionTools.isSelecting = true;
       }
 
+      if (type == "SelectFromMapDistrict") {
+
+         draw = new ol.interaction.Draw({
+            source: gisportal.vectorLayer.getSource(),
+            type: 'Point',
+            maxPoints: 1
+         });
+         map.addInteraction(draw);
+      }
 
       if(draw){
          $(document).one( 'keydown', gisportal.selectionTools.keydownListener);
@@ -418,6 +440,7 @@ gisportal.selectionTools.toggleTool = function(type)  {
                gisportal.vectorLayer.getSource().clear();
                gisportal.removeTypeFromOverlay(gisportal.featureOverlay, 'hover');
                gisportal.removeTypeFromOverlay(gisportal.featureOverlay, 'selected');
+               gisportal.clearCountryBorderLayerByCoordinates();
                // set sketch
                sketch = evt.feature;
             }, this);
@@ -425,6 +448,12 @@ gisportal.selectionTools.toggleTool = function(type)  {
          draw.on('drawend',
             function(evt) {
                var coordinates = sketch.getGeometry().getCoordinates();
+               if (type == "SelectFromMapDistrict") {
+                  gisportal.selectCountryBorderLayerByCoordinates(coordinates);
+                  cancelDraw();
+                  gisportal.selectionTools.toggleTool('None');
+               }
+               else {
                for(var poly in coordinates){
                   for(var coor in coordinates[poly]){
                      for(var num in coordinates[poly][coor]){
@@ -445,7 +474,7 @@ gisportal.selectionTools.toggleTool = function(type)  {
                   gisportal.configurePanel.filterLayersByGeometry(wkt);
                }else{
                   gisportal.selectionTools.ROIAdded(sketch);
-               }
+               } }
                var params = {
                   "event": "olDraw.drawend",
                   "coordinates": coordinates
@@ -537,7 +566,7 @@ gisportal.selectionTools.ROIAdded = function(feature)  {
 
    //var bounds;
    var wkt_feature;
-   if (feature_type === "Polygon") {
+   if (feature_type === "Polygon" || feature_type === "SelectFromMapDistrict") {
       wkt_feature = gisportal.wkt.writeGeometry(geom);
       
       wkt_feature = wkt_feature.replace(/[\d\.]+/g, function(num){
