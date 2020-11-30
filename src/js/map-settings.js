@@ -80,6 +80,10 @@ gisportal.map_settings.init = function() {
          }
       },
    });
+   $('#select-population').change(function() {
+      gisportal.vectorLayer_pop.setVisible(this.checked);
+      map.updateSize();
+   });
 
    // set the default value for the base map
    if (typeof gisportal.config.defaultBaseMap != 'undefined' && gisportal.config.defaultBaseMap) {
@@ -146,7 +150,11 @@ gisportal.createCountryBorderLayers = function() {
                url: gisportal.middlewarePath + '/cache/' + gisportal.niceDomainName + '/borders/'+value+'.geojson',
                dataType: 'json',
                success: function(data){
-                  gisportal.selectionTools.loadInitGeoJSON(data, false);
+                  if (value.includes("_points")){
+                     gisportal.selectionTools.loadInitGeoJSONPopulation(data, false);
+                  } else {
+                     gisportal.selectionTools.loadInitGeoJSON(data, false);
+                  }
                },
                error: function(e){
                   gisportal.vectorLayer.getSource().clear();

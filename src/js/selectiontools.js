@@ -44,6 +44,27 @@ gisportal.selectionTools.init = function()  {
       map:map
    });
 
+   gisportal.vectorLayer_pop = new ol.layer.Vector({
+      source : new ol.source.Vector(),
+      style : new ol.style.Style({
+         fill : new ol.style.Fill({
+            color : 'rgba(47, 163, 11, 0.2)'
+         }),
+         stroke : new ol.style.Stroke({
+            color : '#ffffff',
+            width : 2
+         }),
+         image : new ol.style.Circle({
+            radius : 7,
+            fill : new ol.style.Fill({
+               color : '#ffffff'
+            })
+         })
+      }),
+      map:map
+   });
+   gisportal.vectorLayer_pop.setVisible(false);
+
    gisportal.vectorLayer = new ol.layer.Vector({
       source : new ol.source.Vector(),
       style : new ol.style.Style({
@@ -315,6 +336,67 @@ gisportal.selectionTools.loadGeoJSON = function(geojson, shapeName, selectedValu
    if(selectedValue){
       gisportal.methodThatSelectedCurrentRegion.value = selectedValue;
    }
+};
+
+gisportal.selectionTools.loadInitGeoJSONPopulation = function(geojson, shapeName){
+   var geoJsonFormat = new ol.format.GeoJSON();
+   var featureOptions = {
+      'featureProjection': gisportal.projection
+   };
+   var features = geoJsonFormat.readFeatures(geojson, featureOptions);
+
+   var sum_population = 0;
+
+   features.forEach(function(feat){
+      sum_population += feat.getProperties().Population;
+   });
+   //alert("Sum: "+sum_population);
+   features.forEach(function(feat){
+      //alert(String(feat.getProperties().Population));
+      var coords = feat.getGeometry().getCoordinates();
+      //alert("Coords: "+coords);
+      var radius = ((feat.getProperties().Population / sum_population) * 100000);
+      //alert("Radius: "+radius);
+      feat.setGeometry(new ol.geom.Circle(coords, radius));
+      //alert("Geometry was replaced!");
+      feat.setStyle(new ol.style.Style({
+         stroke: new ol.style.Stroke({
+            color: 'black',
+            width: 2,
+         }),
+         fill: new ol.style.Fill({
+            color: 'rgba(255, 255, 0, 0)',
+         }),
+      }));
+
+      //alert("featuretype:"+feat.getGeometry());
+
+
+   });
+   //gisportal.vectorLayer.getSource().clear();
+   //gisportal.removeTypeFromOverlay(gisportal.featureOverlay, 'hover');
+   //gisportal.removeTypeFromOverlay(gisportal.featureOverlay, 'selected');
+   //cancelDraw();
+   //MORETODO: remove the selected class from draw buttons
+   //alert("featuretype:"+features[0].getGeometry().getType());
+   gisportal.vectorLayer_pop.getSource().addFeatures(features);
+   // Zooms to the extent of the features just added
+   //if((!gisportal.current_view || !gisportal.current_view.noPan)){
+   //    gisportal.mapFit(gisportal.vectorLayer.getSource().getExtent());
+   //}
+   gisportal.currentSelectedRegion = gisportal.wkt.writeFeatures(features);
+   $('.js-coordinates').val("");
+   // If this is a newly created geojson
+   if(shapeName){
+      shapeName += ".shp";
+      // Makes sure it adds the value or just selects the existing value
+      if($(".users-geojson-files option[value='" + shapeName + "']").length === 0){
+         $('.users-geojson-files').append("<option selected value='" +  shapeName + "'>" + shapeName + "</option>");
+      }else{
+         $('.users-geojson-files').val(shapeName);
+      }
+   }
+   //gisportal.methodThatSelectedCurrentRegion = {method:"geoJSONSelect", value: $('.users-geojson-files').val(), justCoords: false, geoJSON: geojson};
 };
 
 gisportal.selectionTools.loadInitGeoJSON = function(geojson, shapeName){

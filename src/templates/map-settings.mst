@@ -34,4 +34,8 @@
 			{{/projections}}
 		</select>
 	</li>
+		<li>
+        		<label for="select-population">Enable Population Info</label>
+        		<input type="checkbox" id="select-population">
+        	</li>
 </ul>
