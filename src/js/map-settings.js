@@ -150,10 +150,35 @@ gisportal.createCountryBorderLayers = function() {
                url: gisportal.middlewarePath + '/cache/' + gisportal.niceDomainName + '/borders/'+value+'.geojson',
                dataType: 'json',
                success: function(data){
+                  var line_color = 'rgba(1, 1, 1, 1)';
+
+                  if (value.includes("rgba")) {
+                     try {
+                     //alert("1 "+value);
+                     line_color = value.split("rgba")[1];
+                     //alert("2 "+line_color);
+                     line_color = line_color.split("_");
+                     //alert("3 "+line_color);
+                     line_color = line_color[1] + ", " + line_color[2] + ", " + line_color[3] + ", " + line_color[4];
+                     //alert("4 "+line_color);
+                     line_color = line_color.split(".")[0].split("_")[0];
+                     //alert("5 "+line_color);
+                     line_color = 'rgba(' + line_color + ')';
+                     //alert("6 "+line_color);
+                     } catch(err){
+                         line_color = 'rgba(1, 1, 1, 1)';
+                     }
+                  }
+                  //alert(line_color);
                   if (value.includes("_points")){
-                     gisportal.selectionTools.loadInitGeoJSONPopulation(data, false);
+                     gisportal.selectionTools.loadInitGeoJSONPopulation(data, false, line_color);
                   } else {
-                     gisportal.selectionTools.loadInitGeoJSON(data, false);
+                     if (value.includes("rgba")) {
+                        gisportal.selectionTools.loadInitGeoJSON(data, false, line_color, gisportal.vectorLayer_other);
+                     }
+                     else {
+                        gisportal.selectionTools.loadInitGeoJSON(data, false, line_color, gisportal.vectorLayer_bg);
+                     }
                   }
                },
                error: function(e){

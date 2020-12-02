@@ -23,7 +23,25 @@ var draw;
 
 gisportal.selectionTools.init = function()  {
    gisportal.selectionTools.initDOM();
-
+   gisportal.vectorLayer_other = new ol.layer.Vector({
+      source : new ol.source.Vector(),
+      style : new ol.style.Style({
+         fill : new ol.style.Fill({
+            color : 'rgba(47, 163, 11, 0.2)'
+         }),
+         stroke : new ol.style.Stroke({
+            color : '#ffffff',
+            width : 2
+         }),
+         image : new ol.style.Circle({
+            radius : 7,
+            fill : new ol.style.Fill({
+               color : '#ffffff'
+            })
+         })
+      }),
+      map:map
+   });
    gisportal.vectorLayer_bg = new ol.layer.Vector({
       source : new ol.source.Vector(),
       style : new ol.style.Style({
@@ -338,7 +356,7 @@ gisportal.selectionTools.loadGeoJSON = function(geojson, shapeName, selectedValu
    }
 };
 
-gisportal.selectionTools.loadInitGeoJSONPopulation = function(geojson, shapeName){
+gisportal.selectionTools.loadInitGeoJSONPopulation = function(geojson, shapeName, line_color){
    var geoJsonFormat = new ol.format.GeoJSON();
    var featureOptions = {
       'featureProjection': gisportal.projection
@@ -359,9 +377,10 @@ gisportal.selectionTools.loadInitGeoJSONPopulation = function(geojson, shapeName
       //alert("Radius: "+radius);
       feat.setGeometry(new ol.geom.Circle(coords, radius));
       //alert("Geometry was replaced!");
+      //alert(line_color);
       feat.setStyle(new ol.style.Style({
          stroke: new ol.style.Stroke({
-            color: 'black',
+            color: line_color,
             width: 2,
          }),
          fill: new ol.style.Fill({
@@ -399,7 +418,7 @@ gisportal.selectionTools.loadInitGeoJSONPopulation = function(geojson, shapeName
    //gisportal.methodThatSelectedCurrentRegion = {method:"geoJSONSelect", value: $('.users-geojson-files').val(), justCoords: false, geoJSON: geojson};
 };
 
-gisportal.selectionTools.loadInitGeoJSON = function(geojson, shapeName){
+gisportal.selectionTools.loadInitGeoJSON = function(geojson, shapeName, line_color, layer){
    var geoJsonFormat = new ol.format.GeoJSON();
    var featureOptions = {
       'featureProjection': gisportal.projection
@@ -409,7 +428,7 @@ gisportal.selectionTools.loadInitGeoJSON = function(geojson, shapeName){
    features.forEach(function(feat){
       feat.setStyle(new ol.style.Style({
          stroke: new ol.style.Stroke({
-            color: 'black',
+            color: line_color,
             width: 2,
          }),
          fill: new ol.style.Fill({
@@ -424,7 +443,8 @@ gisportal.selectionTools.loadInitGeoJSON = function(geojson, shapeName){
    //gisportal.removeTypeFromOverlay(gisportal.featureOverlay, 'selected');
    //cancelDraw();
    //MORETODO: remove the selected class from draw buttons
-   gisportal.vectorLayer_bg.getSource().addFeatures(features);
+
+   layer.getSource().addFeatures(features);
    // Zooms to the extent of the features just added
    //if((!gisportal.current_view || !gisportal.current_view.noPan)){
    //    gisportal.mapFit(gisportal.vectorLayer.getSource().getExtent());
