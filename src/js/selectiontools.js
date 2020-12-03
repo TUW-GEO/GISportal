@@ -23,6 +23,7 @@ var draw;
 
 gisportal.selectionTools.init = function()  {
    gisportal.selectionTools.initDOM();
+
    gisportal.vectorLayer_other = new ol.layer.Vector({
       source : new ol.source.Vector(),
       style : new ol.style.Style({
@@ -42,6 +43,8 @@ gisportal.selectionTools.init = function()  {
       }),
       map:map
    });
+   gisportal.vectorLayer_other.setVisible(this.checked);
+
    gisportal.vectorLayer_bg = new ol.layer.Vector({
       source : new ol.source.Vector(),
       style : new ol.style.Style({
