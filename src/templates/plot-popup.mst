@@ -12,7 +12,7 @@
 		</div>
 	{{else}}
 		<div class="extra-plot-info" data-hash="{{hash}}">
-			<a class="brand secondary" download target="_blank" href='plots/{{hash}}.zip'>Download</a>
+			<a class="brand secondary" download target="_blank" href='plots/{{hash}}.zip'>Download data</a>
 		</div>
 	{{/if}}
 </div>

@@ -20,6 +20,16 @@ gisportal.templates = {};
 gisportal.graphs.activePlotEditor = null;
 gisportal.graphs.storedGraphs = [];
 
+
+gisportal.graphs.addTimeseriesToGraph = function(layer, bbox){
+   layer = layer.trim();
+   bbox = bbox.trim();
+   $('#tab-'+layer+'-coordinates').val(bbox).change();
+
+   $('.js-make-new-plot[data-id="'+layer+'"]').click();
+   $('.js-create-graph').click();
+};
+
 /**
  * Adds a component to the active plot.
  * Create a plot and plot editor to the 

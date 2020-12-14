@@ -64,6 +64,10 @@ button, .btn{
   display: inline-block;
 }
 
+#rm-view-btn {
+  background-color: #b55457;
+}
+
 .secondary  {
    background-color: $secondary-background ;
    border: none;
@@ -363,18 +367,34 @@ dd {
   font-size: 10px;
 }
 
-.footer-logo{
-  max-height: 35px;
-  max-width: 150px
+.container-logo {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  pointer-events: none;
+  text-align: center;
 }
 
-.footer-logo-div{
-  position: absolute;
-  top: 4px;
-  left: 0;
-  width: 100%;
+.footer-logo-div {
   text-align: center;
+  width: 50%;
   pointer-events: none;
+}
+.footer-logo-div-orig {
+  text-align: center;
+  width: 100%;
+  pointer-events: none;
+}
+
+.footer-logo {
+  max-height: 40px;
+  max-width: 170px;
+}
+
+@media(max-width: 400px) {
+  .footer-logo-div {
+    width: 100%;
+  }
 }
 
 .noselect {

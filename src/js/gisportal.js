@@ -677,35 +677,37 @@ gisportal.mapInit = function() {
       var isFeature = false;
       var coordinate = map.getCoordinateFromPixel(pixel);
       var params;
-      response = "";
-      map.forEachFeatureAtPixel(pixel, function(feature, layer) {
-         var overlayType = feature.getProperties().overlayType;
-         if (feature && _.keys(feature.getProperties()).length >1 && overlayType != "filter" && overlayType != "selected") {
-            _.each(gisportal.selectedFeatures, function(feature) {
-            });
-            var tlayer;
-            if(feature.getId()){
-               tlayer = gisportal.layers['rsg_' + feature.getId().split('.')[0]];
-            }
-            isFeature = true;
-            gisportal.selectedFeatures.push([feature, feature.getStyle()]);
-            var props = feature.getProperties();
-            for (var key in props) {
-               if (props.hasOwnProperty(key) && key != "geometry") {
-                  if(tlayer){
-                     if ((!_.includes(tlayer.ignoredParams, key))&&(props[key]!==undefined)) {
-                        response += "<li>" + key + " : " + props[key] + "</li>";
-                     }
-                  }else if(props[key]!==undefined){
-                     response += "<li>" + key + " : " + props[key] + "</li>";
-                  }
-               }
-            }
-            response += "</ul>";
-            gisportal.dataReadingPopupContent.innerHTML = response;
-            gisportal.dataReadingPopupOverlay.setPosition(coordinate);
-         }
-      });
+      // response = "";
+      // map.forEachFeatureAtPixel(pixel, function(feature, layer) {
+      //
+      //    var overlayType = feature.getProperties().overlayType;
+      //    if (feature && _.keys(feature.getProperties()).length >1 && overlayType != "filter" && overlayType != "selected") {
+      //       //_.each(gisportal.selectedFeatures, function(feature) {
+      //       });
+      //       var tlayer;
+      //       // if(feature.getId()){
+      //       //    tlayer = gisportal.layers['rsg_' + feature.getId().split('.')[0]];
+      //       // }
+      //       isFeature = false; //true
+      //       // gisportal.selectedFeatures.push([feature, feature.getStyle()]);
+      //       // var props = feature.getProperties();
+      //       // for (var key in props) {
+      //       //    if (props.hasOwnProperty(key) && key != "geometry") {
+      //       //       if(tlayer){
+      //       //          if ((!_.includes(tlayer.ignoredParams, key))&&(props[key]!==undefined)) {
+      //       //             response += "<li>" + key + " : " + props[key] + "</li>";
+      //       //          }
+      //       //       }else if(props[key]!==undefined){
+      //       //          response += "<li>" + key + " : " + props[key] + "</li>";
+      //       //       }
+      //       //    }
+      //       // }
+      //       // response += "</ul>";
+      //       // gisportal.dataReadingPopupContent.innerHTML = response;
+      //       // gisportal.dataReadingPopupOverlay.setPosition(coordinate);
+      //    }
+      // });
+
       if (!isFeature && !gisportal.selectionTools.isDrawing && !gisportal.geolocationFilter.filteringByPolygon) {
          gisportal.addDataPopup(coordinate, pixel);
          params = {
@@ -715,7 +717,7 @@ gisportal.mapInit = function() {
          gisportal.events.trigger('dataPopup.display', params);
       }
       if(gisportal.selectionTools.isDrawing || gisportal.geolocationFilter.filteringByPolygon){
-         params = {
+          params = {
             "event": "olDraw.click",
             "coordinate": coordinate
          };
@@ -1411,11 +1413,31 @@ gisportal.main = function() {
       $('.start').css({"background-image": "url('" + gisportal.config.splashImage + "')"});
    }
    if(gisportal.config.logoImage){
-      $('.footer-logo').attr({"src": gisportal.config.logoImage}).parent().toggleClass('hidden', false);
-      // Makes sure that the logo image is centered between the buttons properly
-      var left = parseInt($('.about-button').css('width')) + 5;
-      var right = parseInt($('#share-map').css('width')) + 5;
-      $('.footer-logo').css({"max-width": "calc(100% - " + (left + right) + "px)", "margin-left": left + "px", "margin-right": right + "px"});
+      if (Array.isArray(gisportal.config.logoImage)) {
+         var log_counter = 0;
+         var logo_length = gisportal.config.logoImage.length;
+         for(var logo in gisportal.config.logoImage){
+            if (log_counter > 6) {
+               break;
+            }
+            if ((logo_length % 2 == 1) && logo == (logo_length-1)) {
+               $('#footer-logo'+log_counter).parent().css({"width": "100%"});
+            }
+
+            $('#footer-logo'+log_counter).attr({"src": gisportal.config.logoImage[logo]});
+            $('#footer-logo'+log_counter).toggleClass('hidden', false);
+
+            log_counter++;
+         }
+      } else {
+
+         $('#footer-logo').attr({"src": gisportal.config.logoImage}).parent().toggleClass('hidden', false);
+         $('#footer-logo').toggleClass('hidden', false);
+         // Makes sure that the logo image is centered between the buttons properly
+         // var left = parseInt($('.about-button').css('width')) + 5;
+         // var right = parseInt($('#share-map').css('width')) + 5;
+         //$('#footer-logo').css({"max-width": "calc(100% - " + (left + right) + "px)", "margin-left": left + "px", "margin-right": right + "px"});
+      }
    }
 
    if( gisportal.config.siteMode == "production" ) {
@@ -1779,6 +1801,67 @@ gisportal.validateBrowser = function(){
 
 };
 
+/** Clears selection of all features
+ *
+ */
+gisportal.clearCountryBorderLayerByCoordinates = function () {
+
+   gisportal.vectorLayer_bg.getSource().forEachFeature(function (feat) {
+      feat.setStyle(new ol.style.Style({
+         stroke: new ol.style.Stroke({
+            color: 'black',
+            width: 2,
+         }),
+         fill: new ol.style.Fill({
+            color: 'rgba(255, 255, 0, 0)',
+         }),
+      }));
+   });
+};
+
+
+/** Select the feature borders by coordinates
+ *
+ */
+gisportal.selectCountryBorderLayerByCoordinates = function (coordinates) {
+   var coords = [coordinates[0], coordinates[1]];
+   var feature = gisportal.vectorLayer_bg.getSource().getFeaturesAtCoordinate(coords);
+
+   if (feature.length > 0) {
+      feature = feature[0];
+
+      feature.setStyle(new ol.style.Style({
+         stroke: new ol.style.Stroke({
+            color: 'black',
+            width: 4,
+         }),
+         fill: new ol.style.Fill({
+            color: 'rgba(255, 255, 128, 128)',
+         }),
+      }));
+
+      feat_coords = feature.getGeometry().getCoordinates();
+
+      for (var poly in feat_coords) {
+         for (var coor in feat_coords[poly]) {
+            for (var num in feat_coords[poly][coor]) {
+               feat_coords[poly][coor][num] = Math.round(feat_coords[poly][coor][num] * 1000) / 1000;
+            }
+         }
+      }
+
+      gisportal.selectionTools.ROIAdded(feature);
+
+
+      var params = {
+         "event": "olDraw.drawend",
+         "coordinates": feat_coords
+      };
+      gisportal.events.trigger('olDraw.drawend', params);
+   }
+
+};
+
 
 /**
  *  Gets the value at the user selected point for all currently loaded layers
@@ -1832,7 +1915,7 @@ gisportal.getPointReading = function(pixel) {
             success: function(data){
                try{
                   $(elementId +' .loading').remove();
-                  $(elementId).prepend('<li>'+ data +'</li>');
+                  $(elementId).prepend('<li>'+ data + '<span class="brand btn js-make-new-plot icon-business-chart-2" style="padding: 5px 10px;" onclick="gisportal.graphs.addTimeseriesToGraph(\' '+selectedLayer+' \', \' '+coordinate[0]+','+coordinate[1]+', '+(coordinate[0]+0.01)+', '+(coordinate[1]+0.01)+'\')"></span></li>');
                }
                catch(e){
                   $(elementId +' .loading').remove();

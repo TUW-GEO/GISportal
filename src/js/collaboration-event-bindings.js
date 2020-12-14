@@ -395,6 +395,12 @@ gisportal.events.bind('drawBox.clicked', function(event, data) {
    collaboration._emit('c_event', new_data);
 });
 
+gisportal.events.bind('selDist.clicked', function (event, data) {
+   var new_data = _.clone(data);
+   new_data.collabLog = true;
+   collaboration._emit('c_event', new_data);
+});
+
 gisportal.events.bind('drawPolygon.clicked', function(event, data) {
    var new_data = _.clone(data);
    new_data.collabLog = true;

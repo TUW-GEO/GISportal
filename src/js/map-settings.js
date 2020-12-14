@@ -80,6 +80,11 @@ gisportal.map_settings.init = function() {
          }
       },
    });
+   $('#select-population').change(function() {
+      gisportal.vectorLayer_pop.setVisible(this.checked);
+      gisportal.vectorLayer_other.setVisible(this.checked);
+      map.updateSize();
+   });
 
    // set the default value for the base map
    if (typeof gisportal.config.defaultBaseMap != 'undefined' && gisportal.config.defaultBaseMap) {
@@ -146,7 +151,30 @@ gisportal.createCountryBorderLayers = function() {
                url: gisportal.middlewarePath + '/cache/' + gisportal.niceDomainName + '/borders/'+value+'.geojson',
                dataType: 'json',
                success: function(data){
-                  gisportal.selectionTools.loadInitGeoJSON(data, false);
+                  var line_color = 'rgba(1, 1, 1, 1)';
+
+                  if (value.includes("rgba")) {
+                     try {
+                     line_color = value.split("rgba")[1];
+                     line_color = line_color.split("_");
+                     line_color = line_color[1] + ", " + line_color[2] + ", " + line_color[3] + ", " + line_color[4];
+                     line_color = line_color.split(".")[0].split("_")[0];
+                     line_color = 'rgba(' + line_color + ')';
+                     } catch(err){
+                         line_color = 'rgba(1, 1, 1, 1)';
+                     }
+                  }
+                  //alert(line_color);
+                  if (value.includes("_points")){
+                     gisportal.selectionTools.loadInitGeoJSONPopulation(data, false, line_color);
+                  } else {
+                     if (value.includes("rgba")) {
+                        gisportal.selectionTools.loadInitGeoJSON(data, false, line_color, gisportal.vectorLayer_other);
+                     }
+                     else {
+                        gisportal.selectionTools.loadInitGeoJSON(data, false, line_color, gisportal.vectorLayer_bg);
+                     }
+                  }
                },
                error: function(e){
                   gisportal.vectorLayer.getSource().clear();
@@ -357,6 +385,19 @@ gisportal.createBaseLayers = function() {
             maxZoom: 19,
          }
       }),
+       Mapbox: new ol.layer.Tile({
+      id: 'Mapbox',
+      title: 'Open Street Map - no labels',
+      description: 'EPSG:3857 only',
+      projections: ['EPSG:3857'],
+      source: new ol.source.XYZ({
+         attributions: '<a href="https://www.mapbox.com/about/maps/"><code>© Mapbox</code></a><a href="http://www.openstreetmap.org/about/"><code>© OpenStreetMap</code></a>  <a href="https://www.mapbox.com/map-feedback/#/-74.5/40/10"><code>Improve this map</code></a>',
+         url: 'https://api.mapbox.com/styles/v1/bgoesswe/ckd8w3kvs14jm1ipk0ja10ikw/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYmdvZXNzd2UiLCJhIjoiY2psZXNyMGd1MHBoMTNwbWN0aXMxNG5pdiJ9.9Uy9Yxs6As5jYy4-4JxiIw'
+      }),
+      viewSettings: {
+         maxZoom: 19,
+      }
+   })
    };
 
    if (gisportal.config.bingMapsAPIKey) {

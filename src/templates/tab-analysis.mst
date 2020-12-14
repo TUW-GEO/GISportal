@@ -20,6 +20,12 @@
                   <span class=" icon-network-1-1" data-id="Ph" title="Draw Irregular Polygon" ></span>
                   Draw Irregular Polygon
                </button>
+               <p><b>SELECT</b></p>
+                              <p>Click inside a district on the map</p>
+                              <button class="brand secondary extra-small js-select-district" data-id="{{id}}" title="Select District">
+                               <span class=" icon-network-1-1" data-id="Ph" title="Select District" ></span>
+                                          Select District
+                               </button>
                <div class="coordinates clearfix">
                   <p><label for="tab-{{id}}-coordinates">Or enter coordinates</label></p>
                   <div class="analysis-coordinates">
@@ -27,7 +33,8 @@
                      <button data-id="{{id}}" class="brand small js-add-coordinates-to-profile show-when-logged-in {{#unless loggedIn}}hidden{{/unless}}">Save</button>
                   </div>
                </div>
-               <div {{#if noOAuth}}class="hidden"{{/if}}>
+               <!-- <div {{#if noOAuth}}class="hidden"{{/if}}> -->
+               <div class="hidden">
                   <br/>
                   <p><b>UPLOAD</b></p>
                   <div class="show-when-logged-in {{#unless loggedIn}}hidden{{/unless}}">
@@ -46,7 +53,8 @@
                   <p class="hide-when-logged-in {{#if loggedIn}}hidden{{/if}}">
                   <a href="javascript:void(0)" class="js-google-auth-button">Login</a> and upload a file</p>
                </div>
-               <div class="show-when-logged-in {{#unless loggedIn}}hidden{{/unless}}">
+               <!-- <div class="show-when-logged-in {{#unless loggedIn}}hidden{{/unless}}"> -->
+               <div class="hidden">
                   <br/>
                   <p><b>SELECT</b></p>
                   <p>Use this dropdown or select an existing polygon:</p>
@@ -58,7 +66,8 @@
                      Delete Selected Polygon
                   </button>
                </div>
-               <div class="draw-select-polygon-div">
+               <!-- <div class="draw-select-polygon-div"> -->
+               <div class="hidden">
                   <br/>
                   <button class="brand secondary extra-small js-draw-select-polygon" data-id="{{id}}" title="Select Existing Polygon">
                      <span class=" icon-hand-touch-1" data-id="Ph" title="Select Existing Polygon" ></span>
