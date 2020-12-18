@@ -16,13 +16,15 @@ ADD pip3-requirenments.txt  /app/pip-requirenments.txt
 RUN yum -y update && \
     yum clean all && \
     yum install -y epel-release gcc && \
+    yum install -y dnf-plugins-core && \
+    yum config-manager --set-enabled powertools && \
     dnf group install "Development Tools" -y && \
     dnf install -y nodejs \
         npm \
         git \
         wget \
         hdf5 \
-        --enablerepo=PowerTools libdap \
+        --enablerepo=powertools libdap \
         libaec \
         redis \
         ruby \
