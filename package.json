@@ -35,7 +35,6 @@
     "emailjs": "^3.4.0",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
-    "express-sessions": "^1.0.6",
     "fluent-ffmpeg": "^2.1.0",
     "fs-extra": "^3.0.1",
     "glob": "^7.1.1",
