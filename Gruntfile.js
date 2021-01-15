@@ -174,7 +174,7 @@ module.exports = function(grunt) {
    grunt.loadNpmTasks('grunt-postcss');
    grunt.loadNpmTasks('grunt-contrib-cssmin');  // this is here because cssnano that's a plugin for postcss is too slow
    grunt.loadNpmTasks('grunt-contrib-jshint');
-   grunt.loadNpmTasks('grunt-replace');
+   grunt.loadNpmTasks('grunt-replace-regex');
    grunt.loadNpmTasks('grunt-contrib-sass');
    
 
