@@ -26,33 +26,33 @@ collaboration.init = function(io, app, config) {
    });
    client.ltrim("people", 1, 0);
 
-   io.set('authorization', function (handshakeData, accept) {
-      // check if there's a cookie header
-      if (handshakeData.headers.cookie) {
-         try {
-            var cookies = cookieParser.signedCookies(cookie.parse(handshakeData.headers.cookie), config.session.secret);
-            var sid = cookies.GISportal;
+    io.use((socket, next) => {
+        var handshakeData = socket.request;
+        // check if there's a cookie header
+        if (handshakeData.headers.cookie) {
+            try {
+                var cookies = cookieParser.signedCookies(cookie.parse(handshakeData.headers.cookie), config.session.secret);
+                var sid = cookies.GISportal;
 
-            var sessionStore = app.get('sessionStore');
-            sessionStore.load(sid, function(err, session) {
-               if(err || !session) {
-                  return accept('Error retrieving session!', false);
-               }
-            });
+                var sessionStore = app.get('sessionStore');
+                sessionStore.load(sid, function(err, session) {
+                    if(err || !session) {
+                        return next(new Error('Error retrieving session!'));
+                    }
+                });
 
-         } catch(e) {
-            console.log(e);
-         }
+            } catch(e) {
+                console.log(e);
+            }
 
 
-      } else {
-         // if there isn't, turn down the connection with a message
-         // and leave the function.
-         return accept('No cookie transmitted.', false);
-      }
-      // accept the incoming connection
-      accept(null, true);
-   });
+        } else {
+            // if there isn't, turn down the connection with a message
+            // and leave the function.
+            return next(new Error('No cookie transmitted.'));
+        }
+        next();
+    });
 
    io.on('connection', function(socket){
 
