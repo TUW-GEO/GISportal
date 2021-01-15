@@ -91,9 +91,9 @@ module.exports = function(grunt) {
             compress: {
                drop_console: true,
                drop_debugger: true,
-               dead_code: true,
-               warnings: true
-            }
+               dead_code: true
+            },
+            warnings: true
          },
          build: {
             files: {
