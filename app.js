@@ -111,7 +111,7 @@ app.use(requestLogger.autoLog);
 app.use('/api/:version/:token', requestLogger.autoLog);
 
 // template engine
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 app.use(express.static(path.join(__dirname, 'html'), {
    setHeaders: function(res, path) {
       res.setHeader('Access-Control-Allow-Origin', '*');

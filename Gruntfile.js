@@ -91,9 +91,9 @@ module.exports = function(grunt) {
             compress: {
                drop_console: true,
                drop_debugger: true,
-               dead_code: true,
-               warnings: true
-            }
+               dead_code: true
+            },
+            warnings: true
          },
          build: {
             files: {
@@ -105,7 +105,6 @@ module.exports = function(grunt) {
          options: {
             processors: [
                require('pixrem')(),
-               require('autoprefixer')({browsers: 'last 2 versions'}), // add vendor prefixes
             ]
          },
          dist: {
@@ -174,7 +173,7 @@ module.exports = function(grunt) {
    grunt.loadNpmTasks('grunt-postcss');
    grunt.loadNpmTasks('grunt-contrib-cssmin');  // this is here because cssnano that's a plugin for postcss is too slow
    grunt.loadNpmTasks('grunt-contrib-jshint');
-   grunt.loadNpmTasks('grunt-replace');
+   grunt.loadNpmTasks('grunt-replace-regex');
    grunt.loadNpmTasks('grunt-contrib-sass');
    
 
