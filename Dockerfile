@@ -31,6 +31,8 @@ RUN apt-get update && apt-get install -y \
     ruby \
     ruby-dev \
     wget \
+    nodejs \
+    npm \
     && gem install sass
 
 # Install pip as the plotting code will need to load pip packages
@@ -63,17 +65,18 @@ USER portal
 RUN cd /var/portal \
     && wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
     && source .bashrc \
-    && nvm install 6 \
     && nvm install 10 \
-    && nvm alias default 6.17.1 
+    && nvm alias default 10.24.1
 
 # Install all the node apps required
 ADD --chown=portal:portal ./package.json /var/portal/GISportal/package.json
 
+RUN npm -v
+
 RUN cd /var/portal/GISportal \
     && source /var/portal/.bashrc \
     && npm install \
-    && npm -g install grunt-cli@1.3.2 
+    && npm -g install grunt-cli@1.3.2
 
 # Pull all the portal code
 ADD --chown=portal:portal . /var/portal/GISportal/

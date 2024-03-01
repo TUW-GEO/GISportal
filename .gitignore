@@ -32,3 +32,6 @@ uploads/cache/*
 
 app/modules/*
 !app/modules/.gitkeep
+
+.idea
+

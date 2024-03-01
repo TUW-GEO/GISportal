@@ -901,7 +901,7 @@ gisportal.getLayerData = function(fileName, layer, options, style) {
       }
       catch(e){}
       $.ajax({
-         url: gisportal.ProxyHost + encodeURIComponent(layer.wmsURL + 'item=minmax&layers=' + layer.urlName + time + '&bbox=' + bbox + '&srs=EPSG:4326&width=50&height=50&request=GetMetadata'),
+         url: gisportal.ProxyHost + encodeURIComponent(layer.wmsURL + 'item=minmax&layers=' + layer.urlName + time + '&bbox=' + bbox + '&srs=EPSG:4326&width=50&height=50&request=GetMetadata&VERSION=1.1.1'),
          dataType: 'json',
          success: function( data ) {
             // If there is a min & max value returned the label and input are both shown.

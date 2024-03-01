@@ -33,7 +33,7 @@
     On subsequent runs there's no need to run interactively; the portal will be accessible at http://localhost:6789/
 
     ```
-    docker run -d -p 6789:6789 -v /usr/share/GISportal:/app/GISportal/config -t pmlrsg/gisportal
+    docker run -d -p 6789:6789 -v /usr/share/GISportal:/var/portal/GISportal/config -t pmlrsg/gisportal
     ```
 
 ## Debugging GISportal

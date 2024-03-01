@@ -5,10 +5,10 @@
 #
 
 # Add the plotting and extractor paths to python
-export PYTHONPATH="$PYTHONPATH:/app/GISportal/plotting:/app/GISportal/plotting/data_extractor"
+export PYTHONPATH="$PYTHONPATH:/var/portal/GISportal/plotting:/app/GISportal/plotting/data_extractor"
 
 # build the app from the source files
-cd /app/GISportal
+cd /var/portal/GISportal
 grunt
 
 npm -g install node-inspector
@@ -17,4 +17,4 @@ npm -g install node-inspector
 /usr/bin/redis-server --daemonize yes;
 
 # start the app
-node-debug --web-host 0.0.0.0 /app/GISportal/app.js
+node-debug --web-host 0.0.0.0 /var/portal/GISportal/app.js
