@@ -1329,7 +1329,7 @@ gisportal.loadLayerState = function(){
       for(var layer in gisportal.loadLayersState){
          var layer_state = gisportal.loadLayersState[layer];
          var id = layer_state.id;
-         var defaultStyle = gisportal.config.defaultStyle || "boxfill/rainbow";
+         var defaultStyle = gisportal.config.defaultStyle || "raster/x-Rainbow";
          var style = layer_state.style || defaultStyle;
          var min = layer_state.minScaleVal;
          var max = layer_state.maxScaleVal;
@@ -1578,7 +1578,7 @@ gisportal.main = function() {
       $('.js-start-container').addClass('start-dev');
    }
    if(!gisportal.config.colorbands){
-      gisportal.config.colorbands = gisportal.config.colourbands || 255;
+      gisportal.config.colorbands = gisportal.config.colourbands || 250;
    }
    var col;
    if(!gisportal.config.aboveMaxColor){

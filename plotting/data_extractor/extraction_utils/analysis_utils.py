@@ -232,6 +232,11 @@ def getCoordinateVariable(dataset, axis):
 
          if name == "_CoordinateAxisType" and var._CoordinateAxisType == axis:
             return var
+   time_names = ['time', 'Time']
+   # if we cannot determine from the attributes, use the default names
+   for t in time_names:
+      if t in dataset.variables:
+         return dataset.variables[t]
    return None
 
 def getDepth(dataset):

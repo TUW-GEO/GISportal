@@ -106,8 +106,8 @@ display:inline-block;
 # Just pick some random colours. Probably need to make this configurable.
 plot_palette = [['#7570B3', 'blue', 'red', 'red'], ['#A0A0A0', 'green', 'orange', 'orange']]
 
-def get_palette(palette="rainbow"):
-   def_palette = "rainbow"
+def get_palette(palette="x-Rainbow"):
+   def_palette = "x-Rainbow"
    debug(2, u"get_palette(palette={})".format(palette))
    colours = []
    try:
@@ -1473,7 +1473,7 @@ def get_plot_data(json_request, plot=dict(), download_dir="/tmp/"):
    try:
       plot['palette'] = style.split("/")[1]
    except IndexError:
-      plot['palette'] = 'rainbow'
+      plot['palette'] = 'x-Rainbow'
 
 
    debug(3, plot)
@@ -1952,6 +1952,11 @@ def execute_plot(dirname, plot, request, base_url, download_dir):
 #END execute_plot
 
 #############################################################################################################
+#
+# if __name__ == '__main__':
+#    json_request = {"request":{"plot":{"type":"timeseries","title":"C3S_SM: Number of Valid Observations","style":"default","downloadTypes":[{"key":"csv","label":"CSV"},{"key":"png","label":"PNG"},{"key":"meta-data","label":"Meta Data"},{"key":"logos","label":"Logos"},{"key":"svg","label":"SVG"}],"matchup_log":"false","xAxis":{"scale":"linear","label":"Date/Time","ticks":"auto","weight":"auto","tickFormat":"%d/%m/%Y"},"y1Axis":{"scale":"linear","label":"Number of Valid Observations - v202012 - C3S SM","userLabel":"Number of Valid Observations - v202012 - C3S SM","ticks":"auto","weight":"auto","tickFormat":"auto"},"data":{"series":[{"handler":"OPEC_SERVICE_WCS","data_source":{"coverage":"nobs","layer_id":"nobs__C3S_SM","t_bounds":["2015-05-09","2023-07-01"],"bbox":"-1.883,21.196,3.497,26.087","threddsUrl":"http://container.geo.tuwien.ac.at:8484/thredds/wcs/C3S/combined/monthly/files/STACK_C3S-SOILMOISTURE_v202012_COMBINED_MONTHLY.nc"},"label":"1) Number of Valid Observations - v202012 - C3S SM","yAxis":1,"userLabel":"Number of Valid Observations - v202012 - C3S SM","type":"line","meta":"Region: undefined<br>Confidence: undefined<br>Provider: C3S_SM<br>Interval: monthly<br>Bounding Box: -1.883,21.196,3.497,26.087<br>"}]}},"style":{"logos":[]}}}
+#    p = prepare_plot(json_request['request'], '/tmp/datview')
+#    execute_plot('', p, json_request['request'], base_url="", download_dir="/tmp/datview/")
 
 if __name__ == "__main__":
    from argparse import ArgumentParser, RawTextHelpFormatter
@@ -2032,3 +2037,5 @@ To execute a plot
    else:
       # We should not be here
       sys.exit(2)
+
+

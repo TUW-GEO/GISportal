@@ -34,8 +34,8 @@ gisportal.addLayersForm.validation_functions = {
    'defaultColorbands':function(value){
                            if(isNaN(value)){
                               return "value must be a numerical value";
-                           }else if(parseInt(value) <= 0 || parseInt(value) > 255){
-                              return "value must be between 1 and 255";
+                           }else if(parseInt(value) <= 0 || parseInt(value) > 250){
+                              return "value must be between 1 and 250";
                            }
    },
 };
@@ -279,7 +279,7 @@ gisportal.addLayersForm.displayForm = function(total_pages, current_page, form_d
    });
 
    // Makes sure that the defaultStyle value is set correctly and changes the value when the user selects a value
-   var site_style = gisportal.config.defaultStyle || "boxfill/rainbow";
+   var site_style = gisportal.config.defaultStyle || "raster/x-Rainbow";
    var display = this_layer.defaultStyle;
    if(display === undefined){
       display = "Site deafult (" + site_style + ")";

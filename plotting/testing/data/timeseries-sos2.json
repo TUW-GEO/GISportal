@@ -2,7 +2,7 @@
    "plot": {
       "type": "timeseries-sos",
       "title": "",
-      "style": "boxfill/rainbow",
+      "style": "raster/x-Rainbow",
       "downloadTypes": [{
          "key": "csv",
          "label": "CSV"

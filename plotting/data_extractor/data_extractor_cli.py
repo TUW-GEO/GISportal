@@ -34,7 +34,7 @@ AET
 import argparse
 from extractors import BasicExtractor, IrregularExtractor, TransectExtractor, SingleExtractor, ScatterExtractor
 from extraction_utils import Debug, get_transect_bounds, get_transect_times, are_time_axis_the_same
-from analysis_types import BasicStats, TransectStats, HovmollerStats, ScatterStats
+from analysis_types import BasicStats, TransectStats, HovmollerStats, ScatterStats, ImageStats
 from shapely import wkt
 import json
 import time as _time

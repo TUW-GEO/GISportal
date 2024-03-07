@@ -30,8 +30,10 @@ gisportal.scalebars.getScalebarDetails = function(id)  {
             }
          });
       }   
-      // This should only be set if the above fails but we are always executing this line DSN, PETWA, BOD
-      url = gisportal.scalebars.createGetLegendURL(indicator, "");
+      if (url === null) {
+          // This should only be set if the above fails
+          url = gisportal.scalebars.createGetLegendURL(indicator, "");
+      }
      
       
       // Set the scalebar inputs to be correct 
@@ -116,8 +118,8 @@ gisportal.scalebars.createGetLegendURL = function(layer, base, preview)  {
 
       try{
          if(layer.defaultStyle){
-            base = base.replace(/&PALETTE=.+/g, "");
-            parameters += "&PALETTE=" + layer.defaultStyle.replace(/.+?(?=\/)\//g, "");
+            base = base.replace(/&STYLE=.+/g, "");
+            parameters += "&STYLE=" + layer.defaultStyle.replace(/.+?(?=\/)\//g, "");
          }
       }catch(e){}
 

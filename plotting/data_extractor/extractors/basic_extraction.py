@@ -15,3 +15,10 @@ class BasicExtractor(Extractor):
 		with open(fname, 'w') as outfile:
 			outfile.write(data.read())
 		return fname
+
+if __name__ == '__main__':
+	import sys
+	import os
+	sys.path.append(os.path.join(os.path.dirname(__file__)))
+	BasicExtractor("http://container.geo.tuwien.ac.at:8484/thredds/wcs/C3S/combined/monthly/files/STACK_C3S-SOILMOISTURE_v202012_COMBINED_MONTHLY.nc",
+				   ["2020-12-01", "2020-12-01"])

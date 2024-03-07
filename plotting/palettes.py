@@ -60,7 +60,7 @@ descriptions = {
 'occam_pastel-30':'ncWMS palette',
 'orange-descending':'ncWMS palette',
 'orange':'ncWMS palette',
-'rainbow':'ncWMS palette',
+'x-Rainbow':'ncWMS palette',
 'redblue':'ncWMS palette',
 'sst_36':'ncWMS palette',
   # don't just dump new palettes here, put them in alphabetical order please
@@ -9084,7 +9084,7 @@ palettes = {
 189, 0,38,255,
 189, 0,38,255,
 ],
-'rainbow':[
+'x-Rainbow':[
 0, 0,143,255,
 0, 0,147,255,
 0, 0,151,255,

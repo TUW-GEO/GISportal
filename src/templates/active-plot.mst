@@ -53,7 +53,7 @@
 				<option value="boxfill/occam_pastel-30">boxfill/occam_pastel-30</option>
 				<option value="boxfill/orange">boxfill/orange</option>
 				<option value="boxfill/orange-descending">boxfill/orange-descending</option>
-				<option value="boxfill/rainbow">boxfill/rainbow</option>
+				<option value="raster/x-Rainbow">raster/x-Rainbow</option>
 				<option value="boxfill/redblue">boxfill/redblue</option>
 				<option value="boxfill/sst_36">boxfill/sst_36</option>
 			 </select>

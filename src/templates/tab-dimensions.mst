@@ -81,7 +81,7 @@
             </div>
          </div>
          <br/>
-         <label for="tab-{{../id}}-colorbands">Colour Bands:</label><input id="tab-{{../id}}-colorbands-value" class="colorbands-value" maxlength="3" value="255"></input>
+         <label for="tab-{{../id}}-colorbands">Colour Bands:</label><input id="tab-{{../id}}-colorbands-value" class="colorbands-value" maxlength="3" value="250"></input>
          <div id="tab-{{../id}}-colorbands" class="layer-colorbands-slider"></div>
       {{/unless_equals}}
       <div class="indicator-option">

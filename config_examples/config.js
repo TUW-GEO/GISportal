@@ -58,7 +58,7 @@ gisportal.config = {
    defaultBaseMap: 'EOX',
    showGraticules: true,                           // (true|false)   Display latitude and longitude lines on the map
 
-   defaultStyle: "boxfill/rainbow",
+   defaultStyle: "raster/x-Rainbow",
 
    cacheTimeout: 60,                               // Used to specify what time must elapse before the cache can be refreshed by the user
    

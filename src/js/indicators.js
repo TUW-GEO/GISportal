@@ -165,7 +165,7 @@ gisportal.indicatorsPanel.initDOM = function() {
       layer.minScaleVal = layer.defaultMinScaleVal;
       layer.maxScaleVal = layer.defaultMaxScaleVal;
       layer.log = layer.defaultLog || false;
-      layer.style = layer.defaultStyle || "boxfill/rainbow";
+      layer.style = layer.defaultStyle || "raster/x-Rainbow";
 
       $('#tab-' + id + '-colorbands').val(layer.colorbands);
 
@@ -933,7 +933,7 @@ gisportal.indicatorsPanel.scalebarTab = function(id) {
             connect: "lower",
             range: {
                'min': [   1 ],
-               'max': [ 255 ]
+               'max': [ 250 ]
             },
             serialization: {
                lower: [
@@ -992,7 +992,7 @@ gisportal.indicatorsPanel.scalebarTab = function(id) {
          var val = parseInt($(this).val());
          var _this = $(this);
          if(e.keyCode == 38){
-            if(_this.val() < 255){
+            if(_this.val() < 250){
                _this.val(val + 1);
             }
          }
