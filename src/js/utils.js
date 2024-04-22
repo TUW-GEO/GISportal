@@ -452,6 +452,17 @@ gisportal.utils.titleCase = function(str){
 
 gisportal.utils.makePointReadable = function(point){
    var string = point.toString();
+   var short = parseFloat(point).toFixed(2);
+   //var exponential = parseFloat(point).toExponential(2);
+   if(short){
+      return short;
+   }else{
+      return string;
+   }
+};
+/*
+gisportal.utils.makePointReadable = function(point){
+   var string = point.toString();
    var exponential = parseFloat(point).toExponential(2);
    if(exponential){
       return exponential;
@@ -459,6 +470,7 @@ gisportal.utils.makePointReadable = function(point){
       return string;
    }
 };
+*/
 
 $.fn.keepOnScreen = function(){
    var element = this.get(0);

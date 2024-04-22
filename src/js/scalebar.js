@@ -119,7 +119,7 @@ gisportal.scalebars.createGetLegendURL = function(layer, base, preview)  {
       try{
          if(layer.defaultStyle){
             base = base.replace(/&STYLE=.+/g, "");
-            parameters += "&STYLE=" + layer.defaultStyle.replace(/.+?(?=\/)\//g, "");
+            parameters += "&STYLE=" + layer.defaultStyle + "&PALETTE=" + layer.defaultStyle.replace(/.+?(?=\/)\//g, "");
          }
       }catch(e){}
 

@@ -40,6 +40,31 @@ git submodule update
     yum install nodejs  npm  redis  ruby  ruby-devel gdal  libjpeg-turbo  freetype-devel  libpng-devel  hdf5-devel  \
         netcdf-devel  python-devel  python-pip  python-pillow-devel  python-requests  python-pandas  python-jinja2
     ```
+   
+    or if you are on Mint (TUW)
+    
+    ```
+    sudo apt-get update
+    sudo apt-get install -y \
+        build-essential \
+        curl \
+        gcc \
+        gdal-bin \
+        libffi-dev \
+        libfreetype-dev \
+        libhdf5-dev \
+        libjpeg-turbo-progs \
+        libnetcdf-dev \
+        python-dev \
+        redis \
+        ruby \
+        ruby-dev \
+        wget \
+        nodejs \
+        npm 
+    
+    gem install sass
+    ```
 
     **A note about numpy**: Depending on your host OS and how up to date your package manager sources are you may need to update your version of numpy. For example, Centos7 currently has version 1.7.1, and Fedora 21 offers 1.8.2, however, there was a change to the way that masked arrays are handled that was introduced in version 1.8.3. You can check which version you have by running the following in Python:
     ```

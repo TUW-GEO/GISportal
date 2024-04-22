@@ -193,7 +193,7 @@ gisportal.layer = function( options ) {
          if(!this.temporal) $('li[data-id="' + this.id + '"] .date-range-detail').hide();
          // A list of styles available for the layer
          this.styles = _.sortBy(layerData.Styles, function(style){return style.Name;}); // Can be 'Null'.
-         var default_style = null;
+         var default_style = this.defaultStyle;
          if(this.styles){
             $.each(this.styles, function(index, value){
                if(value.Name == gisportal.config.defaultStyle){
@@ -744,6 +744,13 @@ gisportal.addLayer = function(layer, options) {
   
    if (layer)  {
       layer.addOLLayer(layer.openlayers.anID, layer.id);
+   }
+
+   if (!options.minScaleVal) {
+       options.minScaleVal = gisportal.layers[layer.id].defaultMinScaleVal;
+   }
+   if (!options.maxScaleVal) {
+       options.maxScaleVal = gisportal.layers[layer.id].defaultMaxScaleVal;
    }
  
    if (options.minScaleVal || options.maxScaleVal)  {   

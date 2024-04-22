@@ -255,7 +255,7 @@ gisportal.createOpLayers = function() {
          include_bool = false;
       }
 
-      var layerOptions = { 
+      var layerOptions = {
          //new
          "abstract": indicator.Abstract,
          "include": include_bool,
