@@ -3,6 +3,8 @@
 #  folder; therefore the submodules have to be initalised and updated before 
 #  the image is build. See docker-readme.md for full details
 #
+#  To build the image: `docker build -t pmlrsg/gisportal .
+#
 #  To obtain the latest image direct from the Docker Hub you can 
 #  run `docker pull pmlrsg/gisportal` on the command line
 #
@@ -34,6 +36,8 @@ RUN apt-get update && apt-get install -y \
     nodejs \
     npm \
     && gem install sass
+
+RUN apt-get install -y tmpreaper
 
 # Install pip as the plotting code will need to load pip packages
 RUN curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py \

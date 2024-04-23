@@ -34,5 +34,5 @@ app/modules/*
 !app/modules/.gitkeep
 
 .idea
-config/*
+config
 !config/.gitkeep
