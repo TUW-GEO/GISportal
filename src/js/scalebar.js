@@ -34,8 +34,7 @@ gisportal.scalebars.getScalebarDetails = function(id)  {
           // This should only be set if the above fails
           url = gisportal.scalebars.createGetLegendURL(indicator, "");
       }
-     
-      
+
       // Set the scalebar inputs to be correct 
       $('.js-scale-min[data-id="' + id + '"]').val(indicator.minScaleVal);
       $('.js-scale-max[data-id="' + id + '"]').val(indicator.maxScaleVal);
